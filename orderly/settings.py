@@ -12,11 +12,17 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 Requires:
 my 'users' app
 
-https://github.com/dyve/django-bootstrap3
+Bootstrap-3
+http://django-bootstrap3.readthedocs.io
 pip install django-bootstrap3
 
-http://django-ajax-selects.readthedocs.io/en/latest/
-pip install django-ajax-selects
+Ajax Searchable Select
+http://django-select2.readthedocs.io/en/latest/get_started.html
+pip install django_select2
+
+Bootstrap Dynamic Formsets
+https://pypi.python.org/pypi/django-bootstrap-dynamic-formsets/0.4.5
+pip install django-bootstrap-dynamic-formsets
 """
 
 import os
@@ -43,7 +49,8 @@ INSTALLED_APPS = [
     'orders.apps.OrdersConfig',
     'users',
     'bootstrap3',
-    'ajax_select',
+    'django_select2',
+    'django_bootstrap_dynamic_formsets',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

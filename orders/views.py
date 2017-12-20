@@ -3,9 +3,9 @@ from django.shortcuts import get_object_or_404, get_list_or_404, render, redirec
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django import forms
-from .forms import OrderForm, BusinessForm, ProductForm, ConnectForm
+from .forms import OrderForm, OrderItemSet
 from .models import Order, OrderItem, Product, Business, Connection
-from ajax_select.fields import AutoCompleteSelectField
+
 
 
 
@@ -17,6 +17,8 @@ def index(request):
 def orderList(request):
   business_id = request.user.account.business.id
   order_list = list(Order.objects.filter(connection__vendor_id=business_id))
+  #for each order, make a formset of order items
+  #OrderItemList = forms.modelformset_factory(OrderItem, fields=['quantity', 'filled'], extra=0, queryset=OrderItems.filter(Order=))
   business = get_object_or_404(Business, id=business_id)   
   context = {'list': order_list, 'business': business}
   return render(request, 'orders/orderlist.html', context)
@@ -29,19 +31,18 @@ def productList(request, slug):
   return render(request, 'orders/products.html', context)
   
 def about(request, slug): 
-  business = get_object_or_404(Business, account__slug=slug)
-  form = OrderForm()
-  formset = forms.modelformset_factory(OrderItem, fields=('product','quantity',),
-            widgets = { 'product': AutoCompleteSelectField("product", help_text=None)}) 
-            #'NoneType' object has no attribute '_default_manager'
-  formset(queryset=Product.objects.filter(vendor=business))
+  business = get_object_or_404(Business, account__slug=slug) 
+  if request.method == 'POST':
+    formset = OrderItemSet(request.POST)
+    form = OrderForm(request.POST)
+  else:
+    formset = OrderItemSet()
+    form = OrderForm()
+  #formset(queryset=Product.objects.filter(vendor=business))
   try:
     connection = Connection.objects.get(vendor=request.user.account.business.id, customer=business)
-  except ObjectDoesNotExist:
-    connection = None
-  if connection:
     context = {'business': business, 'connection' : connection, 'form': form, 'formset': formset }
-  else:
+  except ObjectDoesNotExist:
     context = {'business': business, 'form': form, 'formset': formset }
   return render(request, 'orders/about.html', context) #change to account id when implemented
 

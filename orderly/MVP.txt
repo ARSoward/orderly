@@ -1,0 +1,60 @@
+TODO 
+Read dajngo bootstrap docs
+Revamp orders page as bootstrap forms
+make functional order uploads
+make multiple select2 formsets as per:
+http://django-autocomplete-light.readthedocs.io/en/master/tutorial.html?highlight=formset#overriding-javascript-code
+
+
+Pretty About/Product List pages
+  -bootstrap formatting
+  --picture uploads
+
+Email Processing / Order Tracking
+  -forward emails to site to create pending orders
+  -customers can make orders from website
+  -Standing orders
+  --update customer when order items/status is changed
+
+Orders List
+  -order creation form
+  -each order is an editable form
+  -each order item can be marked as complete in a visually obvious way
+  -can mark orders as delivered to remove from list
+  --notifications when an order is placed, changed, removed
+  --ability to invite customers to create accounts
+  --can see list of orders placed
+
+
+Order form is very important!
+  connection is set based on relevant businesses.
+  status is pending when placed or emailed, current when accepted, and delivered when marked as complete.
+  
+  date is set when placed, can be modified by vendor or customer. (notify both)
+  notes are set when order is placed, can be modified by vendor or customer. (notify vendor)
+  
+  orders are displayed as pre-populated forms, with a 'save changes' button.
+  modelForm with defs:
+  
+Order items need a formset!
+  order item's order is set on creation.
+  order item's product is set on creation.
+  
+  order item's quantity can be edited by vendor or customer. (notify vendor)
+  order item's filled status is set by checking a box, which will change the style of the div it lives in.
+  
+  orderItems are displayed as pre-populated forms, with only the quantity editable, and 'save changes' button.
+  orderItems status can be changed by checking box. Must update model immediately! Maybe with a hidden submit button?
+  
+Pretty About / Product List
+  -will have a bio, picture, social media links
+  -will have links to their customers, suppliers
+  -will have a 'share' button
+  -will have a carosel of product pics, click to go to relevant product in list
+  -product list will have a picture, description, price, units
+  --products have a dictionary of multiple unit/price pairs
+  --orderItems can be created as you go, shopping cart style, and order details at the end 
+  
+  
+  
+

@@ -20,9 +20,9 @@ from django.contrib import admin
 
 admin.autodiscover()
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('', include('orders.urls')),
     path('', include('users.urls')),
     path('', include('django.contrib.auth.urls')), 
-    path('orders/', include('ajax_select.urls')),
-    path('admin/', admin.site.urls),
+    path('', include('django_select2.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

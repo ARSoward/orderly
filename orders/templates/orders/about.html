@@ -12,23 +12,19 @@
 
 <hr/>
 <div class="row form-horizontal">
-  <form action="{% url 'orders:orders' %}" method="POST">
-      {{ form.media }}
-      {% csrf_token %} 
-      {% for field in form %}
-        <label class="control-label col-md-2" for="id_{{ field.name }}">{{ field.label }}</label> 
-        <div class="col-12 col-md-10">
-          {{ field.errors }}
-          {{ field|addCSS:"form-control"}}
-          {% if field.help_text %}
-          <p class="help">{{ field.help_text|safe }}</p>
-          {% endif %}
-        </div>
-      {% endfor %}
-      {{ formset }}
-      <div class="col-12">
-        <button type="submit" class="btn btn-block"> Submit </button>
-      </div>
+  <form action="" method="POST" id="orderForm">
+  <div class="col-12 col-md-10">
+    {{ formset.media }}
+    {% load bootstrap_dynamic_formsets %}
+    {% csrf_token %} 
+    {% bootstrap_form form layout="horizontal" %}
+  </div>
+  <div class="col-12 col-md-8 col-md-offset-2">
+    {% bootstrap_dynamic_formset formset can_delete=True layout="horizontal" %}
+  </div>
+  <div class="col-12 col-md-6 col-md-offset-3">
+    <button type="submit" class="btn btn-block" id="form-submit"> Submit </button>
+  </div>
   </form>
 </div>
 {% endblock %}

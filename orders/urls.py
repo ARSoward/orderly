@@ -8,7 +8,6 @@ from . import views
 app_name='orders'
 urlpatterns = [        
     # ex: /orders/business_id
-    path('orders/', include('ajax_select.urls')),
     path('orders/', views.orderList, name='orders'),
     
     # ex: /business_id/products

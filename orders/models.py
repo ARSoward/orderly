@@ -9,6 +9,7 @@ class Business(models.Model):
   phone = models.CharField(max_length=15, blank=True)
   address = models.CharField(max_length=260, blank=True)
   #tags, categories, to make businesses searchable
+  #various settings: window of time to place orders, 
   def __str__(self):
     return self.business_name
   class Meta:
@@ -32,10 +33,11 @@ class Order(models.Model):
     ('D', 'Delivered'), #delivered orders will be removed from to-do list, but can be searched
   )
   status = models.CharField(max_length=1, choices=ORDER_STATUS_CHOICES, default='P')
-  requested_delivery = models.DateField('order placed on', default=date.today) # set to the future to set up recurring orders.
+  requested_delivery = models.DateField('requested delivery date', default=date.today) # set to the future to set up recurring orders.
   notes = models.TextField(max_length=600, blank=True)
   def __str__(self):
     return '%s %s' % (self.connection.vendor.business_name, self.requested_delivery.strftime("%B %d, %Y"))
+  #frequency: will be used to create next order when this one is marked delivered.
   
 class Product(models.Model):
   name = models.CharField(max_length=200, unique=True)
@@ -51,7 +53,11 @@ class OrderItem(models.Model):
   order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='item') #many OrderItems have the same Order
   product  = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product') #set to 'deleted item' on delete
   quantity = models.DecimalField(max_digits=5, decimal_places=2, default=1.00)
+  filled = models.BooleanField(default=False)
   #measure = models.CharField(max_length=11, default='unit')
   def __str__(self):
     return '%s %s' % (self.product.name, self.quantity)
+    
+    
+#notification
   
