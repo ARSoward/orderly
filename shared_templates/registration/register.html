@@ -1,0 +1,11 @@
+<h1>Create an account</h1>
+
+{% if form.errors %}
+    <p>There was an error. Please try again.</p>
+{% endif %}
+
+  <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+    <input type="submit" value="Create the account">
+  </form>

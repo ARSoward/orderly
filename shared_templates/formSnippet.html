@@ -1,0 +1,18 @@
+{% load orders_extras %}
+
+<div class="row">
+  <form action="{% url 'orders:orders' %}" method="post">
+      {% for field in form %}
+        <div class="col-12 col-md-7">
+          {{ field.errors }}
+          {{ field.label_tag }} {{ field|addCSS:"form-control"}}
+          {% if field.help_text %}
+          <p class="help">{{ field.help_text|safe }}</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <div class="col-12">
+        <button type="submit" class="btn btn-block"> Submit </button>
+      </div>
+  </form>
+</div>

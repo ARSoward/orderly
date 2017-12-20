@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% comment %}
+  Generic view for displaying a list of items.
+  Each item has two blocks: itemTitle and itemContent.
+  They stack on mobile device, and occupy a single row on a larger screen.
+  there is also an etc block to display more content under the list.
+{% endcomment %}
+
+{% block content %}
+  <div class="container">
+    <h1>{% block title %} Orderly {% endblock %}</h1>
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    {% for item in list %}
+      <div class="row row-eq-height {% cycle 'row1' 'row2' %}">
+        <div class="col-12 col-md-3 rowTitle">
+          {% block itemTitle %}
+            <h2>Item Title Here</h2>
+          {% endblock %}
+        </div>
+        <div class="col-12 col-md-9">
+          {% block itemContent %}
+            {% lorem p %}
+          {% endblock %}
+        </div>
+      </div>
+      
+    {% empty %}
+      <div class="row row1">
+        <div class="col">
+          <p> Nothing to show. </p>
+        </div>
+      </div>
+    {% endfor %}
+    {% block etc %}{% endblock %} 
+  </div>
+{% endblock %}
+

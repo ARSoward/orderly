@@ -1,0 +1,15 @@
+{% extends 'list.html' %}
+{% load bootstrap3 %}
+
+{% block title %}
+    {{ business.business_name }} Products
+{% endblock %}
+
+{% block itemTitle %}
+    {{ item.name }}
+{% endblock %}
+
+{% block itemContent %}
+      <br/>{{ item.description }}
+      <br/>${{ item.price }}/{{ item.unit }}
+{% endblock %} 

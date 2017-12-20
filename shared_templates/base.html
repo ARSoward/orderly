@@ -1,0 +1,61 @@
+{% load static from staticfiles %}
+{% load bootstrap3 %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orderly: {% block title %}{% endblock %}</title>
+    {% bootstrap_css %}
+    <link href="{% static 'orders/css/orders.css' %}" rel="stylesheet">
+  </head>
+
+<body>
+  <div class="wrapper">
+    <div class="navbar navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'users:index' %}">Home</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class=""><a href="{% url 'users:index' %}">Current Orders</a></li>
+            <li class=""><a href="{% url 'users:index' %}">Pending Orders</a></li>
+          </ul>
+          {% block nav_user %}
+            {% if user.is_authenticated %}
+              <ul class="nav navbar-nav navbar-right">
+                <li id="nav-username"><a href="{% url 'orders:index' %}">
+                  <span class="glyphicon glyphicon-user"></span>  {{ user.get_username }} &nbsp; </a>
+                </li>
+                <li>
+                  <a href="{% url 'logout' %}">Sign out</a>
+                </li>
+              </ul>
+            {% endif %}
+          {% endblock %}
+        </div><!--/.navbar-collapse -->
+      </div>
+    </div>
+{% block content %}
+{% endblock %}
+
+  </div> {% comment %} wrapper ends {% endcomment %}
+
+  <div id="page-footer">
+	<div class="container">
+	  <footer>
+		<hr />
+		<p>Orderly: Under Construction</p>
+	  </footer>
+    </div>
+  </div>
+
+  {% bootstrap_javascript jquery=True %}
+</body>
+</html>

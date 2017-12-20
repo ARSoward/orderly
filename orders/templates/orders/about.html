@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% load orders_extras %}
+
+{% block title %}About{% endblock %}
+{% block content %}
+<h1>{{ business.business_name }}</h1>
+<ul>
+  <li>Contact: {{business.contact_name}}</li>
+  {% if connection.notes %}<li>Notes:{{connection.notes}}</li>{% endif %}
+</ul>
+
+<hr/>
+<div class="row form-horizontal">
+  <form action="{% url 'orders:orders' %}" method="POST">
+      {{ form.media }}
+      {% csrf_token %} 
+      {% for field in form %}
+        <label class="control-label col-md-2" for="id_{{ field.name }}">{{ field.label }}</label> 
+        <div class="col-12 col-md-10">
+          {{ field.errors }}
+          {{ field|addCSS:"form-control"}}
+          {% if field.help_text %}
+          <p class="help">{{ field.help_text|safe }}</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+      {{ formset }}
+      <div class="col-12">
+        <button type="submit" class="btn btn-block"> Submit </button>
+      </div>
+  </form>
+</div>
+{% endblock %}
