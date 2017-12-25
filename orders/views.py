@@ -31,20 +31,32 @@ def productList(request, slug):
   return render(request, 'orders/products.html', context)
   
 def about(request, slug): 
-  business = get_object_or_404(Business, account__slug=slug) 
+  business = get_object_or_404(Business, account__slug=slug)
+  context = {'business': business}
+  try:
+    connection = Connection.objects.get(vendor=request.user.account.business.id, customer=business)
+    context['connection'] = connection
+  except:
+    pass
   if request.method == 'POST':
     formset = OrderItemSet(request.POST)
     form = OrderForm(request.POST)
+    if(form.is_valid() and formset.is_valid()):
+      connection, created = Connection.objects.get_or_create(vendor = business, customer=request.user.account.business)
+      order = form.save(commit=False)
+      order.connection = connection
+      order.save()
+      formset = OrderItemSet(request.POST, instance=order)
+      formset.is_valid()
+      formset.save()
+      context['thanks'] = 'Thank you!'
+      return render(request, 'orders/about.html', context)
   else:
     formset = OrderItemSet()
     form = OrderForm()
+  context.update({'form':form, 'formset': formset})
   #formset(queryset=Product.objects.filter(vendor=business))
-  try:
-    connection = Connection.objects.get(vendor=request.user.account.business.id, customer=business)
-    context = {'business': business, 'connection' : connection, 'form': form, 'formset': formset }
-  except ObjectDoesNotExist:
-    context = {'business': business, 'form': form, 'formset': formset }
-  return render(request, 'orders/about.html', context) #change to account id when implemented
+  return render(request, 'orders/about.html', context)
 
 
 
