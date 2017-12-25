@@ -28,7 +28,7 @@ class OrderItemForm(forms.ModelForm):
     widgets = {'product': Select2Widget}
 
 #OrderItem Inline Formset Factory          
-OrderItemSet = forms.inlineformset_factory(Order, OrderItem, form=OrderItemForm, max_num=15, extra=1, can_delete=True)
+OrderItemSet = forms.inlineformset_factory(Order, OrderItem, form=OrderItemForm, max_num=15, extra=5, can_delete=True)
 
     
 #business form:
