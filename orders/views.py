@@ -3,11 +3,8 @@ from django.shortcuts import get_object_or_404, get_list_or_404, render, redirec
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django import forms
-from .forms import OrderForm, OrderItemSet
+from .forms import OrderForm, OrderItemSet, OrderItemModelSet
 from .models import Order, OrderItem, Product, Business, Connection
-
-
-
 
 
 def index(request):
@@ -15,12 +12,18 @@ def index(request):
 
 @login_required
 def orderList(request):
-  business_id = request.user.account.business.id
-  order_list = list(Order.objects.filter(connection__vendor_id=business_id))
-  #for each order, make a formset of order items
+  businessID = request.user.account.business.id
+  rawList = list(Order.objects.filter(connection__vendor_id=businessID))
   #OrderItemList = forms.modelformset_factory(OrderItem, fields=['quantity', 'filled'], extra=0, queryset=OrderItems.filter(Order=))
-  business = get_object_or_404(Business, id=business_id)   
-  context = {'list': order_list, 'business': business}
+  business = get_object_or_404(Business, id=businessID)
+  orderList = []
+  for order in rawList:
+    orderList.append({'business': order.connection.customer,
+                      'orderItemFormset': OrderItemModelSet(queryset=OrderItem.objects.filter(order = order)),
+                      'notes': order.notes,
+                      'status': order.status,
+                    })   
+  context = {'list': orderList, 'business': business}
   return render(request, 'orders/orderlist.html', context)
   
 @login_required

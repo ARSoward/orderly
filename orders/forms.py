@@ -27,9 +27,11 @@ class OrderItemForm(forms.ModelForm):
     fields = ['product', 'quantity',] #make it so product is only editable if it's a new orderItem
     widgets = {'product': Select2Widget}
 
-#OrderItem Inline Formset Factory          
+#OrderItem Formset Factories          
 OrderItemSet = forms.inlineformset_factory(Order, OrderItem, form=OrderItemForm, max_num=15, extra=5, can_delete=True)
-
+OrderItemModelSet = forms.modelformset_factory(OrderItem, fields = ['product', 'quantity', 'filled'], 
+                                                          widgets = {'product': Select2Widget, 'filled': forms.CheckboxInput},
+                                                          extra=0)
     
 #business form:
 # vendors add new customers.

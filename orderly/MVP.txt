@@ -17,7 +17,6 @@ Email Processing / Order Tracking
   --update customer when order items/status is changed
 
 Orders List
-  -order creation form
   -each order is an editable form
   -each order item can be marked as complete in a visually obvious way
   -can mark orders as delivered to remove from list

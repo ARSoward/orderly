@@ -1,26 +1,31 @@
 {% extends 'list.html' %}
-{% load orders_extras %}
+{% load bootstrap3 %}
 
 {% block title %}Orders{% endblock %}
-
+<label class="list-group-item btn  btn-success orderItem {% cycle 'row1' 'row2' %}"></label>
 {% block itemTitle %}
-    <h2><a href="{% url 'orders:about' item.connection.customer.id %}">{{ item.connection.customer.business_name }}</a></h2>
+    <h2><a href="{% url 'orders:about' item.business.account.slug %}">{{ item.business.business_name }}</a></h2>
     <p>{{ item.notes }}</p>
-    <button type="submit" class="btn btn-primary btn-group-justified" action="/sumbitted/" method="POST"> Order Delivered!</button>
+    <button type="submit" class="btn btn-primary btn-group-justified" action="" method="POST"> Order Delivered!</button>
 {% endblock %}
 
 {% block itemContent %}
-  <ul class="list-group orderDetailList {{item.status}} btn-group-vertical btn-block" data-toggle="buttons">
-  {% for object in item.item.all %}
-    <label class="list-group-item btn  btn-success orderItem {% cycle 'row1' 'row2' %}">
-      {{ object.product.name }} </br>{{ object.quantity }} {{object.product.unit}}
-      <input type="checkbox"/>
-    </label>   
-  {% empty %}
-    <li class="list-group-item"> no items. </li>
-  {% endfor %}
-  </label> 
-  </ul>
+  <table class="table orderDetailList {{item.status}}">
+  {% for form in item.orderItemFormset %}
+    {% if forloop.first %}
+    <thead>
+      <tr>
+      {% for field in form.visible_fields %}
+        <th>{{ field.label}}</th>
+      {% endfor %}
+      </tr>
+    </thead>
+    {% endif %}
+    <tr>
+      {% for field in form.visible_fields %}
+          <td>{{ field}}</td>
+      {% endfor %}
+    </tr> 
+  {% endfor %} 
+  </table>
 {% endblock %}
-
-
