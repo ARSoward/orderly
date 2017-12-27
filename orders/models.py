@@ -1,5 +1,5 @@
 from django.db import models
-from datetime import date
+from datetime import date, timedelta
 
 class Business(models.Model):
   business_name = models.CharField(max_length=60)
@@ -33,7 +33,7 @@ class Order(models.Model):
     ('D', 'Delivered'), #delivered orders will be removed from to-do list, but can be searched
   )
   status = models.CharField(max_length=1, choices=ORDER_STATUS_CHOICES, default='P')
-  requested_delivery = models.DateField('requested delivery date', default=date.today) # set to the future to set up recurring orders.
+  requested_delivery = models.DateField('requested delivery date', default=(date.today() + timedelta(days=7))) # set to the future to set up recurring orders.
   notes = models.TextField(max_length=600, blank=True)
   def __str__(self):
     return '%s %s' % (self.connection.vendor.business_name, self.requested_delivery.strftime("%B %d, %Y"))

@@ -18,7 +18,6 @@ Email Processing / Order Tracking
 
 Orders List
   -each order is an editable form
-  -each order item can be marked as complete in a visually obvious way
   -can mark orders as delivered to remove from list
   --notifications when an order is placed, changed, removed
   --ability to invite customers to create accounts

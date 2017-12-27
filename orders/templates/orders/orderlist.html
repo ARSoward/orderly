@@ -31,18 +31,18 @@
 {% endblock %}
 
 {% block etc %}
-  <script>
-  $(document).ready(function(){
-    $('input:checked').parent().parent().addClass('filled');
-    $('input').change(function() {
-      if ($(this).is(':checked')) {
-        $(this).parent().parent().addClass('filled');
-      }
-      else {
-        $(this).parent().parent().removeClass('filled');
-      }
-    });
+<button type="submit" class="btn btn-primary btn-group-justified" action="" method="POST"> Save Changes</button>
+<script>
+$(document).ready(function(){
+  $('input:checked').parent().parent().addClass('filled');
+  $('input').change(function() {
+    if ($(this).is(':checked')) {
+      $(this).parent().parent().addClass('filled');
+    }
+    else {
+      $(this).parent().parent().removeClass('filled');
+    }
   });
-
-  </script>
+});
+</script>
 {% endblock %}

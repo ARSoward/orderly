@@ -1,5 +1,4 @@
 from django import forms
-from datetime import date, timedelta
 from .models import Order, OrderItem, Product, Business
 from django_select2.forms import Select2Widget
 
@@ -10,7 +9,7 @@ class OrderForm(forms.ModelForm):
   class Meta:
     model = Order
     fields = ['requested_delivery', 'notes', ] # and standing order frequency 
-    widgets = {'requested_delivery': forms.SelectDateWidget(),} #initial=date.today() + timedelta(days=7)
+    widgets = {'requested_delivery': forms.SelectDateWidget(),}
   #clean should check delivery against the business's settings
   
   #form must be saved with an Order instance that supplies the other fields:
