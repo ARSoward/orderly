@@ -24,7 +24,11 @@ a:hover {
     color: #383838;
 }
 
-/* Order List CSS*/
+.filled {
+  background: rgba(24, 153, 9, 0.67);
+}
+
+/* Order List CSS */
 .orderDetailList .btn {
     border: 3px solid #E0E0E0;
     background: #EDEDED;
@@ -38,7 +42,7 @@ a:hover {
     text-align: left;
 }
  
-.orderDetailList .orderItem:hover, .orderItem:focus, .orderItem:active, .orderItem.active,  .orderItem.active:hover {
+.orderDetailList .filled {
     background: rgba(24, 153, 9, 0.67);
     border: 3px solid rgba(24, 153, 9, 0.67);
 }

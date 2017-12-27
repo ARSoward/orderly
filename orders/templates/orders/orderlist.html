@@ -21,11 +21,28 @@
       </tr>
     </thead>
     {% endif %}
-    <tr>
+    <tr class="orderItem">
       {% for field in form.visible_fields %}
           <td>{{ field}}</td>
       {% endfor %}
     </tr> 
   {% endfor %} 
   </table>
+{% endblock %}
+
+{% block etc %}
+  <script>
+  $(document).ready(function(){
+    $('input:checked').parent().parent().addClass('filled');
+    $('input').change(function() {
+      if ($(this).is(':checked')) {
+        $(this).parent().parent().addClass('filled');
+      }
+      else {
+        $(this).parent().parent().removeClass('filled');
+      }
+    });
+  });
+
+  </script>
 {% endblock %}
