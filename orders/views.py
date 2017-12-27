@@ -17,12 +17,17 @@ def orderList(request):
   #OrderItemList = forms.modelformset_factory(OrderItem, fields=['quantity', 'filled'], extra=0, queryset=OrderItems.filter(Order=))
   business = get_object_or_404(Business, id=businessID)
   orderList = []
+  number = 0
   for order in rawList:
+    formset = OrderItemModelSet(request.POST or None, prefix=str(number), queryset=OrderItem.objects.filter(order = order))
+    number += 1
+    if (request.method == 'POST' and formset.is_valid):
+      formset.save()
     orderList.append({'business': order.connection.customer,
-                      'orderItemFormset': OrderItemModelSet(queryset=OrderItem.objects.filter(order = order)),
+                      'orderItemFormset': formset,
                       'notes': order.notes,
                       'status': order.status,
-                    })   
+                    })
   context = {'list': orderList, 'business': business}
   return render(request, 'orders/orderlist.html', context)
   
