@@ -11,8 +11,8 @@
 
 {% block itemContent %}
 <form action="" method="post">{% csrf_token %}
-  <table class="table orderDetailList {{item.status}}">
   {{ item.orderItemFormset.management_form }}
+  <table class="table orderDetailList {{item.status}}">
   {% for form in item.orderItemFormset %}
     {% if forloop.first %}
     <thead>
@@ -27,11 +27,11 @@
       {% for field in form.visible_fields %}
           <td>{{ field}}</td>
       {% endfor %}
+  {% endfor %}
       <td>
         <button type="submit" class="btn btn-success btn-group-justified" action="" method="POST"> Save Changes</button>
       </td>
-    </tr> 
-  {% endfor %} 
+    </tr>  
   </table>
 <form>
 {% endblock %}

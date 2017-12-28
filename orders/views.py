@@ -21,8 +21,10 @@ def orderList(request):
   for order in rawList:
     formset = OrderItemModelSet(request.POST or None, prefix=str(number), queryset=OrderItem.objects.filter(order = order))
     number += 1
-    if (request.method == 'POST' and formset.is_valid):
-      formset.save()
+    if (request.method == 'POST'):
+      instances = formset.save()
+      for instance in instances:
+        instance.save()
     orderList.append({'business': order.connection.customer,
                       'orderItemFormset': formset,
                       'notes': order.notes,
