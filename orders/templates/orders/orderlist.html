@@ -24,7 +24,7 @@
     </thead>
     {% endif %}
     <tr class="orderItem">
-      {% for field in form.visible_fields %}
+      {% for field in form %}
           <td>{{ field}}</td>
       {% endfor %}
   {% endfor %}
@@ -43,8 +43,8 @@
 
 <script>
 $(document).ready(function(){
-  $('input:checked').parent().parent().addClass('filled');
-  $('input').change(function() {
+  $('input:checkbox:checked').parent().parent().addClass('filled');
+  $('input:checkbox').change(function() {
     if ($(this).is(':checked')) {
       $(this).parent().parent().addClass('filled');
     }
