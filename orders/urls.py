@@ -15,10 +15,7 @@ urlpatterns = [
     
     # ex: /old-windmill-dairy/
     path('<slug:slug>/', views.about, name='about'),
-    
-    # ex: /1/createOrder
-    # will redirect back to /slug/ after it's done
-    path('<int:id>/createOrder/', views.createOrder, name='createOrder'),
+
     
     # index page will redirect people depending on their status
     path('', views.index, name='index'),
