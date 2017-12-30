@@ -29,7 +29,9 @@ class OrderItemForm(forms.ModelForm):
 #OrderItem Formset Factories          
 OrderItemSet = forms.inlineformset_factory(Order, OrderItem, form=OrderItemForm, min_num=1, validate_min=True, max_num=15, extra=5, can_delete=True)
 OrderItemModelSet = forms.modelformset_factory(OrderItem, fields = ['product', 'quantity', 'filled'], 
-                                                          widgets = {'product': Select2Widget, 'filled': forms.CheckboxInput},
+                                                          widgets = {'product': Select2Widget,
+                                                            'filled': forms.CheckboxInput(attrs={'onchange': 'this.form.submit();'}),
+                                                            'quantity' : forms.TextInput(attrs={'onchange': 'this.form.submit();'})},
                                                           extra=0)
     
 #business form:
