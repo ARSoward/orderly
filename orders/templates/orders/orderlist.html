@@ -6,7 +6,7 @@
 {% block itemTitle %}
     <h2><a href="{% url 'orders:about' item.business.account.slug %}">{{ item.business.business_name }}</a></h2>
     <p>{{ item.notes }}</p>
-    <button type="submit" class="btn btn-primary btn-group-justified" action="" method="POST"> Order Delivered!</button>
+
 {% endblock %}
 
 {% block itemContent %}
