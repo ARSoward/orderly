@@ -1,9 +1,10 @@
-TODO 
-Read dajngo bootstrap docs
-Revamp orders page as bootstrap forms
-make functional order uploads
+TODO
 make multiple select2 formsets as per:
 http://django-autocomplete-light.readthedocs.io/en/master/tutorial.html?highlight=formset#overriding-javascript-code
+add date to orderlist
+sort orderlist by status - current only
+set orders to filled if all items are filled and due date has passed
+
 
 
 Pretty About/Product List pages
@@ -17,7 +18,6 @@ Email Processing / Order Tracking
   --update customer when order items/status is changed
 
 Orders List
-  -each order is an editable form
   -can mark orders as delivered to remove from list
   --notifications when an order is placed, changed, removed
   --ability to invite customers to create accounts
