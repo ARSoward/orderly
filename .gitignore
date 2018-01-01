@@ -1,3 +1,7 @@
-__pycache__
+orderly/__pycache__
+orders/__pycache__
+users/__pycache__
+orders/migrations
+users/migrations
 migrations
 db.sqlite3
