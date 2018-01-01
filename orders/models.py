@@ -37,6 +37,15 @@ class Order(models.Model):
   notes = models.TextField(max_length=600, blank=True)
   def __str__(self):
     return '%s %s' % (self.connection.vendor.business_name, self.requested_delivery.strftime("%B %d, %Y"))
+  @property
+  def isComplete(self):
+    if(date.today() <= self.requested_delivery or any(item.filled == False for item in self.item.all())):
+      return False
+    return True
+  def save(self, *args, **kwargs):
+    if self.isComplete:
+      self.status = 'D'
+    super().save(*args, **kwargs)
   #frequency: will be used to create next order when this one is marked delivered.
   
 class Product(models.Model):
