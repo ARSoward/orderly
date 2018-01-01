@@ -5,7 +5,8 @@
 <label class="list-group-item btn  btn-success orderItem {% cycle 'row1' 'row2' %}"></label>
 {% block itemTitle %}
     <h2><a href="{% url 'orders:about' item.business.account.slug %}">{{ item.business.business_name }}</a></h2>
-    <p>{{ item.notes }}</p>
+    <h3>{{item.order.requested_delivery}}</h3>
+    <p>{{ item.order.notes }}</p>
 
 {% endblock %}
 
