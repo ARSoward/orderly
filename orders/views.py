@@ -13,7 +13,7 @@ def index(request):
 @login_required
 def orderList(request):
   businessID = request.user.account.business.id
-  rawList = list(Order.objects.filter(connection__vendor_id=businessID))
+  rawList = list(Order.objects.filter(connection__vendor_id=businessID, status='C').order_by('requested_delivery'))
   #OrderItemList = forms.modelformset_factory(OrderItem, fields=['quantity', 'filled'], extra=0, queryset=OrderItems.filter(Order=))
   business = get_object_or_404(Business, id=businessID)
   orderList = []
@@ -23,11 +23,10 @@ def orderList(request):
     number += 1
     if (request.method == 'POST'):
       instances = formset.save()
-      for instance in instances:
-        instance.save()
+      order.save()
     orderList.append({'business': order.connection.customer,
                       'orderItemFormset': formset,
-                      'notes': order.notes,
+                      'order': order,
                       'status': order.status,
                     })
   context = {'list': orderList, 'business': business}
@@ -48,9 +47,9 @@ def about(request, slug):
     context['connection'] = connection
   except:
     pass
+  formset = OrderItemSet(request.POST or None)
+  form = OrderForm(request.POST or None)
   if request.method == 'POST':
-    formset = OrderItemSet(request.POST)
-    form = OrderForm(request.POST)
     if(form.is_valid() and formset.is_valid()):
       connection, created = Connection.objects.get_or_create(vendor = business, customer=request.user.account.business)
       order = form.save(commit=False)
@@ -61,9 +60,6 @@ def about(request, slug):
       formset.save()
       context['thanks'] = 'Thank you!'
       return render(request, 'orders/about.html', context)
-  else:
-    formset = OrderItemSet()
-    form = OrderForm()
   context.update({'form':form, 'formset': formset})
   #formset(queryset=Product.objects.filter(vendor=business))
   return render(request, 'orders/about.html', context)
