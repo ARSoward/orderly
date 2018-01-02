@@ -28,8 +28,8 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class=""><a href="{% url 'users:index' %}">Current Orders</a></li>
-            <li class=""><a href="{% url 'users:index' %}">Pending Orders</a></li>
+            <li class=""><a href="{% url 'orders:orders' %}">Current Orders</a></li>
+            <li class=""><a href="{% url 'orders:history' %}">History</a></li>
           </ul>
           {% block nav_user %}
             {% if user.is_authenticated %}
