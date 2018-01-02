@@ -9,6 +9,10 @@ app_name='orders'
 urlpatterns = [        
     # ex: /orders/business_id
     path('orders/', views.orderList, name='orders'),
+    # ex: /orders/business_id
+    path('pending/', views.orderList, {'status':'P'} , name='pending'),
+    # ex: /orders/business_id
+    path('history/', views.orderList,  {'status':'D'}, name='history'),
     
     # ex: /business_id/products
     path('<slug:slug>/products/', views.productList, name='products'),

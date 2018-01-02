@@ -9,11 +9,11 @@ from .models import Order, OrderItem, Product, Business, Connection
 
 def index(request):
     return redirect('/orders/')
-
+  
 @login_required
-def orderList(request):
+def orderList(request, status='C'):
   businessID = request.user.account.business.id
-  rawList = list(Order.objects.filter(connection__vendor_id=businessID, status='C').order_by('requested_delivery'))
+  rawList = list(Order.objects.filter(connection__vendor_id=businessID, status=status).order_by('requested_delivery'))
   #OrderItemList = forms.modelformset_factory(OrderItem, fields=['quantity', 'filled'], extra=0, queryset=OrderItems.filter(Order=))
   business = get_object_or_404(Business, id=businessID)
   orderList = []
@@ -63,8 +63,6 @@ def about(request, slug):
   context.update({'form':form, 'formset': formset})
   #formset(queryset=Product.objects.filter(vendor=business))
   return render(request, 'orders/about.html', context)
-
-
 
 @login_required  
 def createOrder(request, business_id):
