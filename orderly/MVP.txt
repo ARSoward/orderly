@@ -2,7 +2,6 @@ TODO
 make multiple select2 formsets as per:
 http://django-autocomplete-light.readthedocs.io/en/master/tutorial.html?highlight=formset#overriding-javascript-code
 
-use admin calendar widget in frontend
 add date editing function to orderlist
 make order history/search page (incoming/outgoing orders)
 ADD TO USERS APP:
