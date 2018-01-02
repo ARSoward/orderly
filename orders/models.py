@@ -32,7 +32,7 @@ class Order(models.Model):
     ('C', 'Current'),   #current orders show up in the default to-do list
     ('D', 'Delivered'), #delivered orders will be removed from to-do list, but can be searched
   )
-  status = models.CharField(max_length=1, choices=ORDER_STATUS_CHOICES, default='P')
+  status = models.CharField(max_length=1, choices=ORDER_STATUS_CHOICES, default='C')
   requested_delivery = models.DateField('requested delivery date', default=(date.today() + timedelta(days=7))) # set to the future to set up recurring orders.
   notes = models.TextField(max_length=600, blank=True)
   def __str__(self):
