@@ -9,7 +9,7 @@ class OrderForm(forms.ModelForm):
   class Meta:
     model = Order
     fields = ['requested_delivery', 'notes', ] # and standing order frequency 
-    widgets = {'requested_delivery': forms.SelectDateWidget(),}
+    widgets = {'requested_delivery': forms.DateInput(attrs={'type':'date'})}
   #clean should check delivery against the business's settings
   
   #form must be saved with an Order instance that supplies the other fields:
