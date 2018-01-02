@@ -11,7 +11,9 @@
   <div class="container">
     <h1>{% block title %} Orderly {% endblock %}</h1>
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    <ul class="list-group">
     {% for item in list %}
+    <li class="list-group-item">
       <div class="row row-eq-height {% cycle 'row1' 'row2' %}">
         <div class="col-12 col-md-3 rowTitle">
           {% block itemTitle %}
@@ -24,7 +26,7 @@
           {% endblock %}
         </div>
       </div>
-      
+    </li>
     {% empty %}
       <div class="row row1">
         <div class="col">
@@ -32,7 +34,8 @@
         </div>
       </div>
     {% endfor %}
-    {% block etc %}{% endblock %} 
+    {% block etc %}{% endblock %}
+    </ul> 
   </div>
 {% endblock %}
 
