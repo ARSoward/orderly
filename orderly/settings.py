@@ -23,6 +23,10 @@ pip install django_select2
 Bootstrap Dynamic Formsets
 https://pypi.python.org/pypi/django-bootstrap-dynamic-formsets/0.4.5
 pip install django-bootstrap-dynamic-formsets
+
+Pillow
+https://pillow.readthedocs.io/en/latest
+pip install Pillow
 """
 
 import os
