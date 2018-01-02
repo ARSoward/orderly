@@ -4,30 +4,14 @@
 {% block title %}About{% endblock %}
 {% block content %}
 <h1>{{ business.business_name }}</h1>
-<ul>
-  <li>Contact: {{business.contact_name}}</li>
-  {% if connection.notes %}<li>Notes:{{connection.notes}}</li>{% endif %}
+<ul class="list-group">
+  <li class="list-group-item"><h3>Contact:</h3>{{business.contact_name}}</li>
+  {% if connection.notes %}
+    <li class="list-group-item"><h3>Notes:</h3>{{connection.notes}}</li>
+  {% endif %}
 </ul>
 
 <hr/>
-{% if thanks %}
-  <p>{{ thanks }}</p>
-{% else %}
-<div class="row form-horizontal">
-  <form action="" method="post" id="orderForm">
-  <div class="col-12 col-md-10">
-    {{ formset.media }}
-    {% load bootstrap_dynamic_formsets %}
-    {% csrf_token %} 
-    {% bootstrap_form form layout="horizontal" %}
-  </div>
-  <div class="col-12 col-md-8 col-md-offset-2">
-    {% bootstrap_dynamic_formset formset can_delete=True layout="horizontal" %}
-  </div>
-  <div class="col-12 col-md-6 col-md-offset-3">
-    <button type="submit" class="btn btn-block" id="form-submit"> Submit </button>
-  </div>
-  </form>
-</div>
-{% endif %}
+{% include 'orders/orderform.html' with form=form formset=formset thanks=thanks %} 
+
 {% endblock %}
