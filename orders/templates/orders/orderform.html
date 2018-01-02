@@ -1,0 +1,26 @@
+{% comment %}
+  Takes a form named form, formset named formset.
+{% endcomment %}
+
+{% load bootstrap3 %}
+{% if thanks %}
+  {% block thanks %}<p>Thank you! We'll notify you once your order is accepted.</p> {% endblock %}
+{% else %}
+<div class="row form-horizontal">
+  <form action="" method="post" id="orderForm">
+  <div class="col-12 col-md-10">
+    {% csrf_token %}
+     
+    {% bootstrap_form form layout="horizontal" %}
+  </div>
+  <div class="col-12 col-md-8 col-md-offset-2">
+    {{ formset.media }}
+    {% load bootstrap_dynamic_formsets %}
+    {% bootstrap_dynamic_formset formset can_delete=True layout="horizontal" %}
+  </div>
+  <div class="col-12 col-md-6 col-md-offset-3">
+    <button type="submit" class="btn btn-block" id="form-submit"> Submit </button>
+  </div>
+  </form>
+</div>
+{% endif %}
