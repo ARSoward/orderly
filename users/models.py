@@ -1,15 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
-from orders import models as orderModels #link to objects from another app in same folder
 
 from django.utils.text import slugify
-      
+
 class Picture(models.Model):
   image = models.ImageField(upload_to = 'user-uploads/')
   caption = models.TextField(null=True, default=None)
   uploaded = models.DateTimeField('uploaded on', default=datetime.now)
-  
+
 class Account(models.Model):
   isPremium = models.BooleanField(default=False)
   user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='account')
