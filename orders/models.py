@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import date, timedelta
+from users import models as userModels
 
 class Business(models.Model):
   business_name = models.CharField(max_length=60)
@@ -8,13 +9,15 @@ class Business(models.Model):
   email = models.EmailField(max_length=254, blank=True)
   phone = models.CharField(max_length=15, blank=True)
   address = models.CharField(max_length=260, blank=True)
+  about = models.TextField(max_length=600, null=True, default=None)
+  account = models.OneToOneField(userModels.Account, related_name='business', null=True, default=None, on_delete=models.CASCADE)
+  picture = models.OneToOneField(userModels.Picture, related_name='business', blank=True, null=True, on_delete=models.CASCADE)
   #tags, categories, to make businesses searchable
   #various settings: window of time to place orders, 
   def __str__(self):
     return self.business_name
   class Meta:
       verbose_name_plural = "businesses"
-      
 
 
 class Connection(models.Model):
@@ -54,7 +57,7 @@ class Product(models.Model):
   vendor = models.ForeignKey(Business, on_delete=models.CASCADE, default=None, related_name='products')
   price = models.DecimalField(max_digits=5, decimal_places=2, default=1.00)
   unit = models.CharField(max_length=11, default='unit') #I want unit and price to be associated in pairs that the user creates.
-  #picture = (blank=True) need to import pillow for imagefields
+  picture = models.OneToOneField(userModels.Picture, related_name='product', blank=True, null=True, on_delete=models.CASCADE)
   def __str__(self):
     return self.name
   
