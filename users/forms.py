@@ -6,9 +6,9 @@ from .models import Account
 
 
 
-class AccountForm(UserCreationForm):
+class UserForm(UserCreationForm):
   email = forms.EmailField(max_length=254)
-  account = forms.ModelChoiceField(queryset = Business.objects.all())
+  account = forms.ModelChoiceField(queryset = Business.objects.all()) #FIX
   class Meta:
     model = User
     fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'account',)
