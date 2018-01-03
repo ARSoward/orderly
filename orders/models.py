@@ -1,6 +1,8 @@
 from django.db import models
 from datetime import date, timedelta
 from users import models as userModels
+from django_mailbox.signals import message_received
+from django.dispatch import receiver
 
 class Business(models.Model):
   business_name = models.CharField(max_length=60)
@@ -29,17 +31,20 @@ class Connection(models.Model):
     return '%s selling to %s' % (self.vendor.business_name, self.customer.business_name)
 
 class Order(models.Model):
-  connection = models.ForeignKey(Connection, on_delete=models.CASCADE, default=None) #set to deleted user
+  connection = models.ForeignKey(Connection, on_delete=models.CASCADE, blank=True, null=True, default=None) #set to deleted user
   ORDER_STATUS_CHOICES = (
     ('P', 'Pending'),   #user needs to approve order from email or new customer
     ('C', 'Current'),   #current orders show up in the default to-do list
     ('D', 'Delivered'), #delivered orders will be removed from to-do list, but can be searched
   )
+  from_address = models.EmailField(max_length=254, blank=True, null=True, default=None)
   status = models.CharField(max_length=1, choices=ORDER_STATUS_CHOICES, default='C')
   requested_delivery = models.DateField('requested delivery date', default=(date.today() + timedelta(days=7))) # set to the future to set up recurring orders.
   notes = models.TextField(max_length=600, blank=True)
   def __str__(self):
-    return '%s %s' % (self.connection.vendor.business_name, self.requested_delivery.strftime("%B %d, %Y"))
+    if(self.connection):
+      return '%s %s' % (self.connection.vendor.business_name, self.requested_delivery.strftime("%B %d, %Y"))
+    return '%s %s'% (self.from_address, self.requested_delivery.strftime("%B %d, %Y"))
   @property
   def isComplete(self):
     if(date.today() <= self.requested_delivery or any(item.filled == False for item in self.item.all())):
@@ -50,6 +55,20 @@ class Order(models.Model):
       self.status = 'D'
     super().save(*args, **kwargs)
   #frequency: will be used to create next order when this one is marked delivered.
+
+@receiver(message_received)
+def makePendingOrder(sender, message, **args):
+    info = 'From: %s\nSubject:%s\n%s' % (message.from_address[0], message.subject, message.text)
+    vendor = Business.objects.get(pk=message.mailbox.name)
+    order = Order.objects.create(notes=info)
+    order.status = 'P'
+    try:
+      customer = Business.objects.get(email = message.from_address[0])
+      connection, created = Connection.objects.get_or_create(customer = customer, vendor = vendor)
+      order.connection = connection
+    except:
+      order.from_address = message.from_address[0]
+    order.save()
   
 class Product(models.Model):
   name = models.CharField(max_length=200, unique=True)
