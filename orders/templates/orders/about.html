@@ -12,6 +12,7 @@
 </ul>
 
 <hr/>
+{% if user.is_authenticated %}
 {% include 'orders/orderform.html' with form=form formset=formset thanks=thanks %} 
-
+{% endif %}
 {% endblock %}
