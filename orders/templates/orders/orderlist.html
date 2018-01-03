@@ -14,6 +14,7 @@
 <span>
 <form action="" method="post">{% csrf_token %}
   {{ item.orderItemFormset.management_form }}
+  {{ item.orderItemFormset.media }}
   <div class='row'>
     <div class="col-xs-12 col-md-5">
       <label>Product</label>
