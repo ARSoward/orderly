@@ -50,3 +50,7 @@ a:hover {
 .control-label {
   vertical-align:middle!important;
 }
+
+.table td, .table th {
+   text-align: center;   
+}
