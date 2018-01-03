@@ -44,7 +44,7 @@ SECRET_KEY = ')=mskr3qyxlmdoyk^e+6bsl!-8-me5rv+6t)egv984jj)s!#i!'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['arsoward.pythonanywhere.com']
+ALLOWED_HOSTS = ['arsoward.pythonanywhere.com', '127.0.0.1']
 STATIC_ROOT = STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # Application definition
