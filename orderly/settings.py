@@ -27,6 +27,10 @@ pip install django-bootstrap-dynamic-formsets
 Pillow
 https://pillow.readthedocs.io/en/latest
 pip install Pillow
+
+Django-mailbox
+http://django-mailbox.readthedocs.io
+django_mailbox
 """
 
 import os
@@ -55,6 +59,7 @@ INSTALLED_APPS = [
     'bootstrap3',
     'django_select2',
     'django_bootstrap_dynamic_formsets',
+    'django_mailbox',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
