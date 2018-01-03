@@ -14,24 +14,32 @@
 <span>
 <form action="" method="post">{% csrf_token %}
   {{ item.orderItemFormset.management_form }}
-  <table class="table orderDetailList {{item.status}}">
-  {% for form in item.orderItemFormset %}
-    {% if forloop.first %}
-    <thead>
-      <tr>
-      {% for field in form.visible_fields %}
-        <th>{{ field.label}}</th>
-      {% endfor %}
-      </tr>
-    </thead>
-    {% endif %}
-    <tr class="orderItem">
-      {% for field in form %}
-          <td>{{ field}}</td>
-      {% endfor %}
-  {% endfor %}
-    </tr>
-  </table>
+  <div class='row'>
+    <div class="col-xs-12 col-md-5">
+      <label>Product</label>
+    </div>
+    <div class="col-xs-10 col-md-4">
+      <label>Quantity</label>
+    </div>
+    <div class="col-xs-2 col-2">
+      <label>Filled</label>
+    </div>
+  </div>
+    {% for form in item.orderItemFormset %}
+    <div class="row">
+      <div class='order-spacer'></div>
+      <div class="col-xs-12 col-md-5">
+        {{form.product}}
+      </div>
+      <div class="col-xs-10 col-md-4">
+        {{form.quantity}}
+      </div>
+      <div class="col-xs-2 col-2">
+        {{form.filled}}
+      </div>
+      <div class='order-spacer'></div>
+    </div> 
+    {% endfor %}
 <form>
 </span>
 {% endblock %}

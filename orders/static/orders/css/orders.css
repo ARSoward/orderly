@@ -35,11 +35,9 @@ a:hover {
     font-weight: 700;
     letter-spacing: 1px;
 }
- 
-.orderDetailList .orderItem {
-    background: none;
-    color: #383838;
-    text-align: left;
+
+.order-spacer {
+    margin: .5em .05em;
 }
  
 .orderDetailList .filled {
