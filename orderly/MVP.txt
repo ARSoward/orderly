@@ -2,23 +2,31 @@ TODO
 make multiple select2 formsets as per:
 http://django-autocomplete-light.readthedocs.io/en/master/tutorial.html?highlight=formset#overriding-javascript-code
 
-ADD TO USERS APP:
-  notification object: message, recipients, action, datetime
-  add notifications to dropdown in main menu
-  make text link to relevant page/action
-  add clear button to delete notifications
+set up email address that orders can be forwarded to
+format pending orders to be a llist of form/formset pairs, each editable with an accept button
+
+make picture upload work. add all products to owd account
+send it to michael for comments
+
+
 
 Pretty About/Product List pages
   add about, pictures to account
   bootstrap formatting:
   -flesh out contact info
   --picture uploads
-
+  
 Email Processing / Order Tracking
   -forward emails to site to create pending orders
   -customers can make orders from website
   -Standing orders
   --update customer when order items/status is changed
+  
+ADD TO USERS APP:
+  notification object: message, recipients, action, datetime
+  add notifications to dropdown in main menu
+  make text link to relevant page/action
+  add clear button to delete notifications
 
 Orders List
   -can mark orders as delivered to remove from list
