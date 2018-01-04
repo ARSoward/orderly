@@ -5,10 +5,13 @@ from django.core.exceptions import ObjectDoesNotExist
 from django import forms
 from .forms import OrderForm, OrderItemSet, OrderItemModelSet
 from .models import Order, OrderItem, Product, Business, Connection
+from django.contrib.auth.forms import AuthenticationForm 
 
 
 def index(request):
-    return redirect('/orders/')
+    context = {'loginform': AuthenticationForm()}
+    return render(request, 'orders/index.html', context)
+    #return redirect('/orders/')
   
 @login_required
 def orderList(request, status='C'):

@@ -52,3 +52,30 @@ a:hover {
 .table td, .table th {
    text-align: center;   
 }
+
+/*landing page formatting*/
+
+.splash-page {
+    /* Leone Venter picture credit */
+    background: url("../images/boxes.jpg") no-repeat center center;
+    background-attachment: fixed;
+    /* Ensure the html element always takes up the full height of the browser window */
+    min-height:100%;
+
+    /* The Magic */
+    background-size:cover;
+}
+
+.space-div {
+  height: 3em;
+}
+
+.splash-div {
+  padding-top: .5em;
+}
+
+.transparent {
+  background: transparent;
+}
+
+

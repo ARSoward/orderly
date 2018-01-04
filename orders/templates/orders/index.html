@@ -1,0 +1,99 @@
+{% load static from staticfiles %}
+{% load bootstrap3 %}
+<!DOCTYPE html>
+<html lang="en" >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orderly: {% block title %}{% endblock %}</title>
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery=True %}
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+    <link href="{% static 'orders/css/orders.css' %}" rel="stylesheet">
+    <script>
+      $(document).ready(function(){
+	      $('a[href^="#"]').on('click',function (e) {
+	          e.preventDefault();
+	          var target = this.hash;
+	          var $target = $(target);
+	          $('html, body').stop().animate({
+	              'scrollTop': $target.offset().top
+	          }, 900, 'swing', function () {
+	              window.location.hash = target;
+	          });
+	      });
+      });
+    </script>
+  </head>
+  
+<body class="splash-page">
+  <div class="wrapper transparent">
+  {% block content %}
+    <div class="jumbotron splash-div" id="splash">
+      <h1 class="display-3">Orderly</h1>
+      <p class='lead'>
+        Managing a small business is tough. Orderly can help. 
+        Simplify management of your small business and strengthen your local network.
+      </p>
+      <a class="btn btn-primary btn-lg" href="#sign-up" role="button"> Get Orderly </a>
+    </div>
+    
+    <div class="space-div"></div>
+    
+    <div class="jumbotron splash-div" id='login'>
+      <h1 class="display-4">Login</h1>
+      {% if form.errors %}
+      <div class="row">
+        <div class="alert alert-danger col-sm-offset-2 col-sm-6">
+          <p><strong>Login failed. Try again...</strong></p>
+        </div>
+      </div>
+      {% endif %}
+
+      <form action="{% url 'login' %}" 
+          method="post" 
+          role="form" 
+          class="form-horizontal">
+        {% csrf_token %}
+
+        {% bootstrap_field loginform.username layout='horizontal' %}
+        {% bootstrap_field loginform.password layout='horizontal' %}
+        {% if next %}
+          <input type="hidden" name="next" value="{{ next }}" />
+        {% else %}
+          <input type="hidden" name="next" value="/" />
+        {% endif %}
+        {% buttons %}
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-primary">
+            {% bootstrap_icon "star" %} Login
+          </button>
+        </div>
+        {% endbuttons %}
+      </form>
+    </div> 
+    
+    <div class="space-div"></div>
+    
+    <div class="jumbotron splash-div" id="sign-up">
+      <h1 class="display-4">Sign up</h1>
+      <p class="lead">
+        
+      </p>
+    </div> 
+  {% endblock %}
+  </div>
+
+  <div id="page-footer">
+	<div class="container">
+	  <footer>
+		<hr />
+		<p>Orderly Alpha</p>
+	  </footer>
+    </div>
+  </div>
+</body>
+
+</html>

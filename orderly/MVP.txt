@@ -2,11 +2,8 @@ TODO
 make multiple select2 formsets as per:
 http://django-autocomplete-light.readthedocs.io/en/master/tutorial.html?highlight=formset#overriding-javascript-code
 
-set up email address that orders can be forwarded to
-grab email text and put it in notes
-if email from address is linked to a business, connect it to them
-otherwise create new business
-format pending orders to be a llist of form/formset pairs, each editable with an accept button
+bug: pending orders w/ no connection are not displayed.
+format pending orders to be a list of form/formset pairs, each editable with an accept button
 
 make picture upload work. add all products to owd account
 send it to michael for comments
