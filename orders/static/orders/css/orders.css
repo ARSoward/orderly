@@ -42,7 +42,7 @@ a:hover {
  
 .orderDetailList .filled {
     background: rgba(24, 153, 9, 0.67);
-    border: 3px solid rgba(24, 153, 9, 0.67);
+    border: none;
 }
 
 .control-label {
@@ -71,11 +71,22 @@ a:hover {
 }
 
 .splash-div {
-  padding-top: .5em;
+  padding-top: .4em;
+  padding-left:  1.4em;
+  padding-right: 1.4em;
+  background-color: rgba(224, 224, 224, 0.88)
 }
 
 .transparent {
   background: transparent;
 }
+.lobster {
+ font-family: Lobster;
+ color: rgba(24, 153, 9, 0.67) !important; 
+}
 
+.my-button {
+  background-color: rgba(24, 153, 9, 0.67) !important;
+  border: none !important; 
+}
 

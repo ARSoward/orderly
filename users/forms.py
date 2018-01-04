@@ -13,3 +13,10 @@ class UserForm(UserCreationForm):
     model = User
     fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'account',)
   #users can only sign up with a registration code, linking them to an existing business.
+  
+class ContactForm(forms.Form):
+  your_name = forms.CharField(max_length=254)
+  business_name = forms.CharField(max_length=254)
+  email = forms.EmailField(max_length=254)
+  website = forms.CharField(max_length=254)
+  

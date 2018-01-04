@@ -5,11 +5,12 @@ from django.core.exceptions import ObjectDoesNotExist
 from django import forms
 from .forms import OrderForm, OrderItemSet, OrderItemModelSet
 from .models import Order, OrderItem, Product, Business, Connection
-from django.contrib.auth.forms import AuthenticationForm 
+from django.contrib.auth.forms import AuthenticationForm
+from users.forms import ContactForm 
 
 
 def index(request):
-    context = {'loginform': AuthenticationForm()}
+    context = {'loginform': AuthenticationForm(), 'contactform': ContactForm()}
     return render(request, 'orders/index.html', context)
     #return redirect('/orders/')
   
