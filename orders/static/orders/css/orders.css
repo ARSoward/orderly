@@ -57,12 +57,13 @@ a:hover {
 
 .splash-page {
     /* Leone Venter picture credit */
-    background: url("../images/boxes.jpg") no-repeat center center fixed;
+    background: url("../images/boxes.jpg") no-repeat center center;
     background-attachment: fixed;
-    width: 100%;
-    height: 100%;
+    /* Ensure the html element always takes up the full height of the browser window */
+    min-height:100%;
+
+    /* The Magic */
     background-size:cover;
-    -webkit-background-size: 500px;
 }
 
 .space-div {
