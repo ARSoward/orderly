@@ -9,6 +9,7 @@
     {% bootstrap_css %}
     {% bootstrap_javascript jquery=True %}
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all"/>
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lobster:300,400,600,700&amp;lang=en" />
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
     <link href="{% static 'orders/css/orders.css' %}" rel="stylesheet">
@@ -20,7 +21,7 @@
 	          var $target = $(target);
 	          $('html, body').stop().animate({
 	              'scrollTop': $target.offset().top
-	          }, 900, 'swing', function () {
+	          }, 1100, 'swing', function () {
 	              window.location.hash = target;
 	          });
 	      });
@@ -32,18 +33,20 @@
   <div class="wrapper transparent">
   {% block content %}
     <div class="jumbotron splash-div" id="splash">
-      <h1 class="display-3">Orderly</h1>
-      <p class='lead'>
-        Managing a small business is tough. Orderly can help. 
-        Simplify management of your small business and strengthen your local network.
+      <h1 class="display-1 text-center lobster">Orderly</h1>
+      <p class="lead">
+        Managing a small business is tough. Orderly can help.<br/>
+        Simplify your workflow and strengthen your local network.
       </p>
-      <a class="btn btn-primary btn-lg" href="#sign-up" role="button"> Get Orderly </a>
+      <div class= "text-center">
+        <a class="btn btn-primary btn-lg my-button" href="#sign-up" role="button"> Get Orderly </a>
+      </div>
     </div>
     
     <div class="space-div"></div>
     
     <div class="jumbotron splash-div" id='login'>
-      <h1 class="display-4">Login</h1>
+      <h1 class="display-4 text-center lobster">Login</h1>
       {% if form.errors %}
       <div class="row">
         <div class="alert alert-danger col-sm-offset-2 col-sm-6">
@@ -58,17 +61,17 @@
           class="form-horizontal">
         {% csrf_token %}
 
-        {% bootstrap_field loginform.username layout='horizontal' %}
-        {% bootstrap_field loginform.password layout='horizontal' %}
+        {% bootstrap_field loginform.username layout='inline' %}
+        {% bootstrap_field loginform.password layout='inline' %}
         {% if next %}
           <input type="hidden" name="next" value="{{ next }}" />
         {% else %}
           <input type="hidden" name="next" value="/" />
         {% endif %}
         {% buttons %}
-        <div class="col-sm-offset-2 col-sm-10">
-          <button type="submit" class="btn btn-primary">
-            {% bootstrap_icon "star" %} Login
+        <div class="col-sm-offset-2 col-sm-10 text-center">
+          <button type="submit" class="btn btn-primary my-button">
+            Login
           </button>
         </div>
         {% endbuttons %}
@@ -78,10 +81,31 @@
     <div class="space-div"></div>
     
     <div class="jumbotron splash-div" id="sign-up">
-      <h1 class="display-4">Sign up</h1>
+      <h1 class="display-4 text-center lobster">Sign up</h1>
       <p class="lead">
-        
+        Give us your contact info and we'll send you an invite to join Orderly.
       </p>
+            {% if form.errors %}
+      <div class="row">
+        <div class="alert alert-danger col-sm-offset-2 col-sm-6">
+          <p><strong>Login failed. Try again...</strong></p>
+        </div>
+      </div>
+      {% endif %}
+      <form action="" 
+          method="post" 
+          role="form" 
+          class="form-horizontal">
+        {% csrf_token %}
+        {% bootstrap_form contactform layout='inline'%}
+        {% buttons %}
+        <div class="col-sm-offset-2 col-sm-10 text-center">
+          <button type="submit" class="btn btn-primary my-button">
+            Send
+          </button>
+        </div>
+        {% endbuttons %}
+      </form>
     </div> 
   {% endblock %}
   </div>
