@@ -6,22 +6,23 @@ from . import views
 
 
 app_name='orders'
+namespace='orders'
 urlpatterns = [        
-    # ex: /orders/business_id
-    path('orders/', views.orderList, name='orders'),
-    # ex: /orders/business_id
-    path('pending/', views.orderList, {'status':'P'} , name='pending'),
-    # ex: /orders/business_id
-    path('history/', views.orderList,  {'status':'D'}, name='history'),
-    
-    # ex: /business_id/products
-    path('<slug:slug>/products/', views.productList, name='products'),
-    
-    # ex: /old-windmill-dairy/
-    path('<slug:slug>/', views.about, name='about'),
-
-    
-    # index page will redirect people depending on their status
-    path('', views.index, name='index'),
+  #these three all call orderlist
+  path('orders/', views.orderList, name='orders'),
+  path('pending/', views.orderList, {'status':'P'} , name='pending'),   
+  path('history/', views.orderList,  {'status':'D'}, name='history'),
+  
+  #processes form and redirects
+  path('new-order/', views.newOrder, name='new-order'),
+  
+  # ex: /owd/products
+  path('<slug:slug>/products/', views.productList, name='products'),
+  
+  # ex: /old-windmill-dairy/
+  path('<slug:slug>/', views.about, name='about'),
+ 
+  # index page will redirect people depending on their status
+  path('', views.index, name='index'),
 ]
 
