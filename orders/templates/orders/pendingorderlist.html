@@ -1,0 +1,13 @@
+{% extends 'list.html' %}
+{% load bootstrap3 %}
+
+{% block title %}New Orders{% endblock %}
+
+{% block itemTitle %}
+    <h2><a href="{% url 'orders:about' item.business.account.slug %}">{{ item.business.business_name }}</a></h2>
+    <h3>{{item.order.requested_delivery}}</h3>
+{% endblock %}
+
+{% block itemContent %}
+  {% include 'orders/orderform.html' with form=item.orderForm formset=item.orderItemFormset %}
+{% endblock %}
