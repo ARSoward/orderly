@@ -27,7 +27,7 @@ class OrderItemForm(forms.ModelForm):
     widgets = {'product': Select2Widget}
 
 #OrderItem Formset Factories          
-OrderItemSet = forms.inlineformset_factory(Order, OrderItem, form=OrderItemForm, min_num=1, validate_min=True, max_num=15, extra=5, can_delete=True)
+OrderItemSet = forms.inlineformset_factory(Order, OrderItem, form=OrderItemForm, min_num=1, validate_min=True, max_num=15, extra=2, can_delete=True)
 OrderItemModelSet = forms.modelformset_factory(OrderItem, fields = ['product', 'quantity', 'filled'], 
                                               widgets = {'product': Select2Widget(attrs={'class': 'form-control col-xs-12'}),
                                                 'filled': forms.CheckboxInput(attrs={'class': 'form-control', 
