@@ -3,6 +3,20 @@
 
 {% block title %}About{% endblock %}
 {% block content %}
+<script>
+  $(document).ready(function(){
+    $('a[href^="#"]').on('click',function (e) {
+        e.preventDefault();
+        var target = this.hash;
+        var $target = $(target);
+        $('html, body').stop().animate({
+            'scrollTop': $target.offset().top
+        }, 1100, 'swing', function () {
+            window.location.hash = target;
+        });
+    });
+  });
+</script>
 <h1>{{ business.business_name }}</h1>
 <ul class="list-group">
   <li class="list-group-item"><h3>Contact:</h3>{{business.contact_name}}</li>
@@ -12,7 +26,65 @@
 </ul>
 
 <hr/>
-{% if user.is_authenticated %}
-{% include 'orders/orderform.html' with form=form formset=formset thanks=thanks %} 
-{% endif %}
+
+<div class=container>
+  <div class="jumbotron">
+    <h3>{{business.business_name}}</h3>
+    <p>{{business.tagline}}</p>
+    {% if business.photo %}
+    <div class= "text-center">
+      <a class="btn btn-primary btn-lg my-button" href="#business-photo" role="button"> Learn More </a>
+    </div>
+    {% elif business.about %}
+    <div class= "text-center">
+      <a class="btn btn-primary btn-lg my-button" href="#business-about" role="button"> Learn More </a>
+    </div>
+    {% endif %}
+  </div>
+
+
+  <div class=container>
+    <h2> Contact </h2>
+    <ul class="list-group">
+      {% for field in contacts %}
+        <li class="list-group-item">
+          <strong>{{field.name}}:</strong> {{field.info}}
+        </li>
+      {% empty %}
+        <li class="lit-group-item"> No contact info available :( </li>
+      {% endfor %}
+    </ul>
+    {% if user.is_authenticated %}
+      <hr/>
+      <h2> Place Order </h2>
+      {% include 'orders/orderform.html' with form=form formset=formset buttontext='Submit' thanks=thanks %} 
+    {% endif %}
+  </div>
+
+  <div class="space-div"></div>
+
+  {% if business.photo %}
+  <div class="jumbotron" id="business-photo">
+    <p class="lead">{{business.about}}</p>
+  </div>
+  {% endif %}
+  
+  <div class="space-div"></div>
+  
+  {% if business.about %}
+  <div class="jumbotron" id="business-about">
+    <p class="lead">{{business.about}}</p>
+  </div>
+  {% endif %}
+ 
+  {% if business.catalog %}
+  <div class="jumbotron" id="business-catalog">
+    <p class="lead">{{business.about}}</p>
+  </div>
+  {% endif %}
+  
+</div>
+
+
 {% endblock %}
+

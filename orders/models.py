@@ -11,6 +11,7 @@ class Business(models.Model):
   email = models.EmailField(max_length=254, blank=True)
   phone = models.CharField(max_length=15, blank=True)
   address = models.CharField(max_length=260, blank=True)
+  tagline = models.CharField(max_length=150, blank=True) #describe your business in 150 characters or less!
   about = models.TextField(max_length=600, null=True, default=None)
   account = models.OneToOneField(userModels.Account, related_name='business', null=True, default=None, on_delete=models.CASCADE)
   picture = models.OneToOneField(userModels.Picture, related_name='business', blank=True, null=True, on_delete=models.CASCADE)
