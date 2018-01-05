@@ -79,7 +79,7 @@ def productList(request, slug):
   list = business.products.all;
   context = {'business': business, 'list': list}
   return render(request, 'orders/products.html', context)
-  
+ 
 def about(request, slug): 
   business = get_object_or_404(Business, account__slug=slug)
   context = {'business': business}
@@ -106,7 +106,19 @@ def about(request, slug):
   return render(request, 'orders/about.html', context)
 
 @login_required  
-def createOrder(request, business_id):
-  business = get_object_or_404(Business, id=business_id)
-  return render(request, 'orders/list.html', {'business': business, 'error_message': "I'm a work in progress."})
+@login_required
+def newOrder(request):
+  formset = OrderItemSet(request.POST or None)
+  form = OrderForm(request.POST or None)
+  if(form.is_valid() and formset.is_valid()):
+    connection, created = Connection.objects.get_or_create(vendor = business, customer=request.user.account.business)
+    order = form.save(commit=False)
+    order.connection = connection
+    order.save()
+    formset = OrderItemSet(request.POST, instance=order)
+    formset.is_valid()
+    formset.save()
+    context['thanks'] = 'Thank you!'
+  next = request.POST.get('next', '/')
+  return HttpResponseRedirect(request, next)
   
