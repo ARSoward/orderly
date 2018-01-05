@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
-from django.shortcuts import get_object_or_404, get_list_or_404, render, redirect
+from django.shortcuts import get_object_or_404, get_list_or_404, render, HttpResponseRedirect
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django import forms
@@ -13,8 +14,7 @@ def index(request):
       context = {'loginform': AuthenticationForm(), 'contactform': ContactForm()}
       return render(request, 'orders/index.html', context)
     else:
-      return redirect('orders/')
-    #return redirect('/orders/')
+      return HttpResponseRedirect(reverse('orders:orders'))
   
 @login_required
 def orderList(request, status='C'):
@@ -24,19 +24,54 @@ def orderList(request, status='C'):
   business = get_object_or_404(Business, id=businessID)
   orderList = []
   number = 0
-  for order in rawList:
-    formset = OrderItemModelSet(request.POST or None, prefix=str(number), queryset=OrderItem.objects.filter(order = order))
-    number += 1
-    if (request.method == 'POST'):
-      instances = formset.save()
-      order.save()
-    orderList.append({'business': order.connection.customer,
-                      'orderItemFormset': formset,
-                      'order': order,
-                      'status': order.status,
-                    })
+  ##FIX:
+  # changes to orderform are not saved (notes, date)
+  # form and formset are saved regardless if they are invalid
+  # pending order submits automatically on change (will need to make it a parameter for formset creation)
+  if status == 'P':
+    for order in rawList:
+      form = OrderForm(instance=order, prefix=str(number))
+      if OrderItem.objects.filter(order = order):
+        formset = OrderItemModelSet(request.POST or None, prefix=str(number), queryset=OrderItem.objects.filter(order = order))
+        emailOrder = False
+      else:
+        formset = OrderItemSet(request.POST or None, prefix=str(number))
+        emailOrder = True
+      number += 1
+      if (request.method == 'POST'):
+        if emailOrder:
+          formset = OrderItemSet(request.POST, instance=order)
+          formset.is_valid()
+          formset.save()
+        else:
+          instances = formset.save()
+        form.is_valid()
+        order = form.save(commit=False)
+        order.status = 'C'
+        order.save()
+        return HttpResponseRedirect(reverse('orders:pending'))
+      orderList.append({'business': order.connection.customer,
+                        'orderForm': form,
+                        'orderItemFormset': formset,
+                        'order': order,
+                        'status': order.status,
+                      })
+    template = 'orders/pendingorderlist.html'
+  else:
+    for order in rawList:
+      formset = OrderItemModelSet(request.POST or None, prefix=str(number), queryset=OrderItem.objects.filter(order = order))
+      number += 1
+      if (request.method == 'POST'):
+        instances = formset.save()
+        order.save()
+      orderList.append({'business': order.connection.customer,
+                        'orderItemFormset': formset,
+                        'order': order,
+                        'status': order.status,
+                      })
+    template = 'orders/orderlist.html'
   context = {'list': orderList, 'business': business}
-  return render(request, 'orders/orderlist.html', context)
+  return render(request, template, context)
   
 @login_required
 def productList(request, slug):
