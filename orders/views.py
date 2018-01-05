@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django import forms
+from django.forms.models import model_to_dict
 from .forms import OrderForm, OrderItemSet, OrderItemModelSet
 from .models import Order, OrderItem, Product, Business, Connection
 from django.contrib.auth.forms import AuthenticationForm
@@ -24,7 +25,7 @@ def orderList(request, status='C'):
   business = get_object_or_404(Business, id=businessID)
   orderList = []
   number = 0
-  ##FIX:
+  ##TODO:
   # changes to orderform are not saved (notes, date)
   # form and formset are saved regardless if they are invalid
   # pending order submits automatically on change (will need to make it a parameter for formset creation)
@@ -83,13 +84,17 @@ def productList(request, slug):
 def about(request, slug): 
   business = get_object_or_404(Business, account__slug=slug)
   context = {'business': business}
+  contactFields = ['contact_name','website','email','email','address']
+  contacts = model_to_dict(business, contactFields)
   try:
     connection = Connection.objects.get(vendor=request.user.account.business.id, customer=business)
-    context['connection'] = connection
+    contacts.append({'notes': connection.notes})
   except:
     pass
   formset = OrderItemSet(request.POST or None)
   form = OrderForm(request.POST or None)
+  
+  #TODO form processing - will eventually move to it's own view.
   if request.method == 'POST':
     if(form.is_valid() and formset.is_valid()):
       connection, created = Connection.objects.get_or_create(vendor = business, customer=request.user.account.business)
@@ -101,7 +106,7 @@ def about(request, slug):
       formset.save()
       context['thanks'] = 'Thank you!'
       return render(request, 'orders/about.html', context)
-  context.update({'form':form, 'formset': formset})
+  context.update({'form':form, 'formset': formset, 'contacts': contacts})
   #formset(queryset=Product.objects.filter(vendor=business))
   return render(request, 'orders/about.html', context)
 
