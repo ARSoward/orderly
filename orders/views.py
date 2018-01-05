@@ -9,8 +9,11 @@ from django.contrib.auth.forms import AuthenticationForm
 from users.forms import ContactForm 
 
 def index(request):
-    context = {'loginform': AuthenticationForm(), 'contactform': ContactForm()}
-    return render(request, 'orders/index.html', context)
+    if not request.user.is_authenticated:
+      context = {'loginform': AuthenticationForm(), 'contactform': ContactForm()}
+      return render(request, 'orders/index.html', context)
+    else:
+      return redirect('orders/')
     #return redirect('/orders/')
   
 @login_required
