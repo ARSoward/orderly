@@ -38,7 +38,7 @@ class Order(models.Model):
     ('D', 'Delivered'), #delivered orders will be removed from to-do list, but can be searched
   )
   from_address = models.EmailField(max_length=254, blank=True, null=True, default=None)
-  status = models.CharField(max_length=1, choices=ORDER_STATUS_CHOICES, default='C')
+  status = models.CharField(max_length=1, choices=ORDER_STATUS_CHOICES, default='P')
   requested_delivery = models.DateField('requested delivery date', default=(date.today() + timedelta(days=7))) # set to the future to set up recurring orders.
   notes = models.TextField(max_length=600, blank=True)
   def __str__(self):
