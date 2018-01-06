@@ -39,8 +39,6 @@ def orderList(request, status='C'):
         emailOrder = False
       else:
         formset = OrderItemSet(request.POST or None, prefix=str(number))
-        for form in formset:
-          form.fields['product'].queryset=(Product.objects.filter(vendor=request.user.account.business))
         emailOrder = True
       number += 1
       if (request.method == 'POST'):
@@ -102,8 +100,9 @@ def about(request, slug):
   context.update({'contacts': contacts});
   form = OrderForm(request.POST or None)
   formset = OrderItemSet(request.POST or None)
-  for form in formset:
-    form.fields['product'].queryset=(Product.objects.filter(vendor=business)) #TODO YYYYYYYYYYYY??
+  for f in formset:
+    f.fields['product'].queryset=(Product.objects.filter(vendor=business))
+  context.update({'form':form, 'formset': formset})
   #TODO form processing - will eventually move to it's own view.
   if request.method == 'POST':
     if(form.is_valid() and formset.is_valid()):
@@ -116,7 +115,6 @@ def about(request, slug):
       formset.save()
       context.update({'thanks':'Thank you!'})
       return render(request, 'orders/about.html', context)
-  context.update({'form':form, 'formset': formset})
   #formset(queryset=Product.objects.filter(vendor=business))
   return render(request, 'orders/about.html', context)
 

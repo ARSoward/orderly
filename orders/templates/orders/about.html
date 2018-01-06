@@ -3,21 +3,20 @@
 
 {% block title %}About{% endblock %}
 {% block content %}
-<script>
-  $(document).ready(function(){
-    $('a[href^="#"]').on('click',function (e) {
-        e.preventDefault();
-        var target = this.hash;
-        var $target = $(target);
-        $('html, body').stop().animate({
-            'scrollTop': $target.offset().top
-        }, 1100, 'swing', function () {
-            window.location.hash = target;
-        });
+  <script>
+    $(document).ready(function(){
+      $('a[href^="#"]').on('click',function (e) {
+          e.preventDefault();
+          var target = this.hash;
+          var $target = $(target);
+          $('html, body').stop().animate({
+              'scrollTop': $target.offset().top
+          }, 1100, 'swing', function () {
+              window.location.hash = target;
+          });
+      });
     });
-  });
-</script>
-
+  </script> 
 <div class=container>
   <div class="jumbotron">
     <h3>{{business.business_name}}</h3>
@@ -67,10 +66,25 @@
     <p class="lead">{{business.about}}</p>
   </div>
   {% endif %}
- 
-  {% if business.catalog %}
-  <div class="jumbotron" id="business-catalog">
-    <p class="lead">{{business.about}}</p>
+  
+  {% if products %}
+  <script>
+    $(document).ready(function(){
+      $("#business-products").carousel();
+    });
+  </script> 
+  <div class='row'>
+    <div id="business-products" class="carousel slide" data-interval="3000" data-ride="carousel">
+        <!-- Carousel items -->
+        <div class="carousel-inner">
+          {% for item in products %}
+            {% if forloop.first %} <div class="item active">
+            {% else %} <div class="item"> {% endif %}
+                <a href="{% url 'orders:products' slug=slug %}"><img src="{{ item.picture.image.url }}" class="img-fluid"></a>
+            </div>
+          {% endfor %}
+        </div>
+    </div>
   </div>
   {% endif %}
   

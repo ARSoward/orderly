@@ -1,15 +1,48 @@
-{% extends 'list.html' %}
+{% extends 'base.html' %}
 {% load bootstrap3 %}
+{% block title %}Products{% endblock %}
 
-{% block title %}
-    {{ business.business_name }} Products
+{% block content %}
+<h1>{{ business.business_name }} Products</h1>
+<div class="panel-group row" id="accordion" role="tablist" aria-multiselectable="true">
+{% for item in list %}
+  <div class="panel panel-default col-12 col-md-6">
+    <div class="panel-heading" role="tab" id="heading{{item.id}}">
+      <h4 class="panel-title">
+        {% if forloop.first %}
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{item.id}}"
+                         aria-expanded="true" aria-controls="collapse{{item.id}}">
+       {% else %}
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{item.id}}"
+                             aria-expanded="false" aria-controls="collapse{{item.id}}">
+       {% endif %}
+          {{ item.name }}
+        </a>
+      </h4>
+    </div>
+    {% if forloop.first %}
+    <div id="collapse{{item.id}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading{{item.id}}">
+    {% else %}
+    <div id="collapse{{item.id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{item.id}}">
+    {% endif %}
+      <div class="panel-body row">
+        <div class="col-3 col-md-12">
+          <img src="{{ item.picture.image.url }}" class="img-fluid img-thumbnail">
+        </div>
+        <div class="col-9 col-md-12">
+          <p>
+            <strong>${{ item.price }} per {{ item.unit }}</strong>
+            <br/>{{ item.description }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div> 
+{% endfor %} 
+</div>  
 {% endblock %}
 
-{% block itemTitle %}
-    {{ item.name }}
-{% endblock %}
 
-{% block itemContent %}
-      <br/>{{ item.description }}
-      <br/>${{ item.price }}/{{ item.unit }}
-{% endblock %} 
+        
+
+          

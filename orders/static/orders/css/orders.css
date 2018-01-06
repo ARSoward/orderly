@@ -74,12 +74,22 @@ a:hover {
   background-color: rgba(224, 224, 224, 0.88)
 }
 
+.w-100 {
+  width: 100% !important;
+}
+
+
 .transparent {
   background: transparent;
 }
 .lobster {
  font-family: Lobster;
- color: rgba(24, 153, 9, 0.67) !important; 
+ color: rgba(24, 153, 9, 0.67) !important;
+ font-size: 110%; 
+}
+
+.extra-jumbo {
+  font-size: 400%; 
 }
 
 .my-button {
