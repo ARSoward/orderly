@@ -1,0 +1,54 @@
+{% extends 'list.html' %}
+{% load bootstrap3 %}
+
+{% block title %}Orders{% endblock %}
+<label class="list-group-item btn  btn-success orderItem {% cycle 'row1' 'row2' %}"></label>
+{% block itemTitle %}
+    <h2><a href="{% url 'orders:about' item.business.account.slug %}">{{ item.business.business_name }}</a></h2>
+    <h3>{{item.order.requested_delivery}}</h3>
+    <p>{{ item.order.notes }}</p>
+
+{% endblock %}
+
+{% block itemContent %}
+<span>
+
+
+<form action="" method="post">{% csrf_token %}
+  {{ item.orderItemFormset.management_form }}
+  {{ item.orderItemFormset.media }}
+  <div class='row'>
+    <div class="col-xs-12 col-md-5">
+      <label>Product</label>
+    </div>
+    <div class="col-xs-10 col-md-4">
+      <label>Quantity</label>
+    </div>
+    <div class="col-xs-2 col-2">
+      <label>Filled</label>
+    </div>
+  </div>
+    {% for form in item.orderItemFormset %}
+    <div class="row">
+      <div class='order-spacer'></div>
+      <div class="col-xs-12 col-md-5">
+        {{form.product}}
+      </div>
+      <div class="col-xs-10 col-md-4">
+        {{form.quantity}}
+      </div>
+      <div class="col-xs-2 col-2">
+        {{form.filled}}
+      </div>
+      <div class='order-spacer'></div>
+    </div> 
+    {% endfor %}
+<form>
+</span>
+{% endblock %}
+
+{% block etc %}
+<div class='row'>
+  
+</div>
+{% endblock %}

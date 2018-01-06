@@ -25,6 +25,8 @@ def orderList(request, status='C'):
   business = get_object_or_404(Business, id=businessID)
   orderList = []
   number = 0
+  if status == 'O': #TODO outgoing orders
+    pass 
   ##TODO:
   # changes to orderform are not saved (notes, date)
   # form and formset are saved regardless if they are invalid
@@ -37,6 +39,8 @@ def orderList(request, status='C'):
         emailOrder = False
       else:
         formset = OrderItemSet(request.POST or None, prefix=str(number))
+        for form in formset:
+          form.fields['product'].queryset=(Product.objects.filter(vendor=request.user.account.business))
         emailOrder = True
       number += 1
       if (request.method == 'POST'):
@@ -70,20 +74,24 @@ def orderList(request, status='C'):
                         'order': order,
                         'status': order.status,
                       })
-    template = 'orders/orderlist.html'
+    if status == 'C':
+      template = 'orders/orderlist.html'
+    else:
+      template = 'orders/historyorderlist.html'
   context = {'list': orderList, 'business': business}
   return render(request, template, context)
   
 @login_required
 def productList(request, slug):
   business = get_object_or_404(Business, account__slug=slug)
-  list = business.products.all;
-  context = {'business': business, 'list': list}
+  products = business.products.all;
+  context = {'business': business, 'list': products}
   return render(request, 'orders/products.html', context)
  
 def about(request, slug): 
   business = get_object_or_404(Business, account__slug=slug)
-  context = {'business': business}
+  products = business.products.all;
+  context = {'business': business, 'products':products, 'slug': slug}
   contactFields = ['contact_name','website','email','email','address']
   contacts = model_to_dict(business, contactFields)
   try:
@@ -92,10 +100,10 @@ def about(request, slug):
   except:
     pass
   context.update({'contacts': contacts});
+  form = OrderForm(request.POST or None)
   formset = OrderItemSet(request.POST or None)
   for form in formset:
-    form.fields['product'].queryset=(Product.objects.filter(vendor=business))
-  form = OrderForm(request.POST or None)
+    form.fields['product'].queryset=(Product.objects.filter(vendor=business)) #TODO YYYYYYYYYYYY??
   #TODO form processing - will eventually move to it's own view.
   if request.method == 'POST':
     if(form.is_valid() and formset.is_valid()):
