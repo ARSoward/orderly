@@ -22,7 +22,7 @@
   <div class="jumbotron">
     <h3>{{business.business_name}}</h3>
     <p><small>{{business.tagline}}</small></p>
-    {% if business.photo %}
+    {% if business.picture %}
     <div class= "text-center">
       <a class="btn btn-primary btn-lg my-button" href="#business-photo" role="button"> Learn More </a>
     </div>
@@ -54,9 +54,9 @@
 
   <div class="space-div"></div>
 
-  {% if business.photo %}
+  {% if business.picture %}
   <div class="jumbotron" id="business-photo">
-    <p class="lead">{{business.about}}</p>
+    <img src="{{ business.picture.image.url }}">
   </div>
   {% endif %}
   
