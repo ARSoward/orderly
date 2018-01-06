@@ -8,6 +8,8 @@ class Picture(models.Model):
   image = models.ImageField(upload_to = 'user-uploads/')
   caption = models.TextField(null=True, default=None)
   uploaded = models.DateTimeField('uploaded on', default=datetime.now)
+  def __str__(self):
+    return '%s' % (self.caption)
 
 class Account(models.Model):
   isPremium = models.BooleanField(default=False)

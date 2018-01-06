@@ -78,6 +78,7 @@ class Product(models.Model):
   price = models.DecimalField(max_digits=5, decimal_places=2, default=1.00)
   unit = models.CharField(max_length=11, default='unit') #I want unit and price to be associated in pairs that the user creates.
   picture = models.OneToOneField(userModels.Picture, related_name='product', blank=True, null=True, on_delete=models.CASCADE)
+  #default = userModels.Picture.objects.get(id=7) serializable error
   def __str__(self):
     return self.name
   
