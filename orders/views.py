@@ -91,9 +91,11 @@ def about(request, slug):
     contacts.append({'notes': connection.notes})
   except:
     pass
+  context.update({'contacts': contacts});
   formset = OrderItemSet(request.POST or None)
+  for form in formset:
+    form.fields['product'].queryset=(Product.objects.filter(vendor=business))
   form = OrderForm(request.POST or None)
-  
   #TODO form processing - will eventually move to it's own view.
   if request.method == 'POST':
     if(form.is_valid() and formset.is_valid()):
@@ -104,9 +106,9 @@ def about(request, slug):
       formset = OrderItemSet(request.POST, instance=order)
       formset.is_valid()
       formset.save()
-      context['thanks'] = 'Thank you!'
+      context.update({'thanks':'Thank you!'})
       return render(request, 'orders/about.html', context)
-  context.update({'form':form, 'formset': formset, 'contacts': contacts})
+  context.update({'form':form, 'formset': formset})
   #formset(queryset=Product.objects.filter(vendor=business))
   return render(request, 'orders/about.html', context)
 

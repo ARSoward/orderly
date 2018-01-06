@@ -47,7 +47,7 @@
     </ul>
     {% if user.is_authenticated %}
       <hr/>
-      <h3>Place An Order</h3>
+      <h3 id="#order-form">Place An Order</h3>
       {% include 'orders/orderform.html' with form=form formset=formset buttontext='Submit' thanks=thanks %} 
     {% endif %}
   </div>
@@ -56,7 +56,7 @@
 
   {% if business.picture %}
   <div class="jumbotron" id="business-photo">
-    <img src="{{ business.picture.image.url }}">
+    <img src="{{ business.picture.image.url }}" class="img-fluid img-thumbnail">
   </div>
   {% endif %}
   
