@@ -24,7 +24,8 @@ class OrderItemForm(forms.ModelForm):
   class Meta:
     model = OrderItem
     fields = ['product', 'quantity',] #make it so product is only editable if it's a new orderItem
-    widgets = {'product': Select2Widget}
+    widgets = {'product': Select2Widget(attrs={'class': 'form-control col-xs-12'}),
+               'quantity' : forms.TextInput(attrs={'class': 'form-control'})}
 
 #OrderItem Formset Factories          
 OrderItemSet = forms.inlineformset_factory(Order, OrderItem, form=OrderItemForm, min_num=1, validate_min=True, max_num=15, extra=2, can_delete=True)
