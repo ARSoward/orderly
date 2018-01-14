@@ -8,7 +8,8 @@ from django.forms.models import model_to_dict
 from .forms import OrderForm, OrderItemSet, OrderItemModelSet
 from .models import Order, OrderItem, Product, Business, Connection
 from django.contrib.auth.forms import AuthenticationForm
-from users.forms import ContactForm 
+from users.forms import ContactForm
+from django_mailbox.models import Mailbox 
 
 def index(request):
     if not request.user.is_authenticated:
@@ -31,6 +32,10 @@ def orderList(request, status='C'):
   # changes to orderform are not saved (notes, date)
   # form and formset are saved regardless if they are invalid
   # pending order submits automatically on change (will need to make it a parameter for formset creation)
+  if(request.user.account.isPremium):
+    mailbox = Mailbox.objects.get(name = businessID)
+    mailbox.get_new_mail()
+    print("mail checked")
   if status == 'P':
     for order in rawList:
       form = OrderForm(instance=order, prefix=str(number))
