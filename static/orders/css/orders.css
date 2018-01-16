@@ -82,10 +82,25 @@ a:hover {
 .transparent {
   background: transparent;
 }
+
 .lobster {
- font-family: Lobster;
+ font-family: 'Oleo Script Swash Caps', cursive;
  color: rgba(24, 153, 9, 0.67) !important;
  font-size: 110%; 
+}
+
+.lobster-nav {
+  background-color: rgba(200, 200, 200, 0.88);
+  border: none;
+}
+
+.glyphicon.glyphicon-collapse-down {
+    font-size: 200%;
+}
+
+.lobster-nav .navbar-collapse {
+  background-color: rgba(224, 224, 224, 0.88)
+  border: none;
 }
 
 .extra-jumbo {
