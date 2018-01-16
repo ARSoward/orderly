@@ -46,8 +46,14 @@ def orderList(request, status='C'):
         emailOrder = False
       else:
         formset = OrderItemSet(request.POST or None, prefix=str(number))
+        for f in formset:
+          f.fields['product'].queryset=(Product.objects.filter(vendor=business))
         emailOrder = True
       number += 1
+      form.is_valid()
+      order = form.save(commit=False)
+      order.status = 'C'
+      order.save()
       if (request.method == 'POST'):
         if emailOrder:
           formset = OrderItemSet(request.POST, instance=order)
@@ -55,10 +61,6 @@ def orderList(request, status='C'):
           formset.save()
         else:
           instances = formset.save()
-        form.is_valid()
-        order = form.save(commit=False)
-        order.status = 'C'
-        order.save()
         return HttpResponseRedirect(reverse('orders:pending'))
       orderList.append({'business': order.connection.customer,
                         'orderForm': form,
