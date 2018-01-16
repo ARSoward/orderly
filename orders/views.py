@@ -22,7 +22,8 @@ def index(request):
 def orderList(request, status='C'):
   businessID = request.user.account.business.id
   rawList = list(Order.objects.filter(connection__vendor_id=businessID, status=status).order_by('requested_delivery'))
-  #OrderItemList = forms.modelformset_factory(OrderItem, fields=['quantity', 'filled'], extra=0, queryset=OrderItems.filter(Order=))
+  #OrderItemList = forms.modelformset_factory(OrderItem, fields=['quantity', 'filled'],
+  # extra=0, queryset=OrderItems.filter(Order=))
   business = get_object_or_404(Business, id=businessID)
   orderList = []
   number = 0
@@ -40,7 +41,8 @@ def orderList(request, status='C'):
     for order in rawList:
       form = OrderForm(instance=order, prefix=str(number))
       if OrderItem.objects.filter(order = order):
-        formset = OrderItemModelSet(request.POST or None, prefix=str(number), queryset=OrderItem.objects.filter(order = order))
+        formset = OrderItemModelSet(request.POST or None, prefix=str(number),
+                                                          queryset=OrderItem.objects.filter(order = order))
         emailOrder = False
       else:
         formset = OrderItemSet(request.POST or None, prefix=str(number))
@@ -67,7 +69,10 @@ def orderList(request, status='C'):
     template = 'orders/pendingorderlist.html'
   else:
     for order in rawList:
-      formset = OrderItemModelSet(request.POST or None, prefix=str(number), queryset=OrderItem.objects.filter(order = order))
+      formset = OrderItemModelSet(request.POST or None, prefix=str(number), 
+                                  queryset=OrderItem.objects.filter(order = order))
+      for f in formset:
+        f.fields['product'].queryset=(Product.objects.filter(vendor=business))
       number += 1
       if (request.method == 'POST'):
         instances = formset.save()
@@ -111,7 +116,8 @@ def about(request, slug):
   #TODO form processing - will eventually move to it's own view.
   if request.method == 'POST':
     if(form.is_valid() and formset.is_valid()):
-      connection, created = Connection.objects.get_or_create(vendor = business, customer=request.user.account.business)
+      connection, created = Connection.objects.get_or_create(vendor = business,
+                                                             customer=request.user.account.business)
       order = form.save(commit=False)
       order.connection = connection
       order.save()
