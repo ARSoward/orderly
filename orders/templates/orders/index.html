@@ -10,7 +10,7 @@
     {% bootstrap_javascript jquery=True %}
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all"/>
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Oleo+Script+Swash+Caps:700&amp;lang=en" />
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
     <link href="{% static 'orders/css/orders.css' %}" rel="stylesheet">
     <script>
@@ -29,7 +29,7 @@
     </script>
   </head>
 
-  
+
 <body class="splash-page">
   <div class="wrapper transparent">
   {% block content %}
@@ -43,9 +43,9 @@
         <a class="btn btn-primary btn-lg my-button" href="#sign-up" role="button"> Get Orderly </a>
       </div>
     </div>
-    
+
     <div class="space-div"></div>
-    
+
     <div class="jumbotron splash-div" id='login'>
       <h1 class="display-4 text-center lobster">Login</h1>
       {% if form.errors %}
@@ -56,9 +56,9 @@
       </div>
       {% endif %}
 
-      <form action="{% url 'login' %}" 
-          method="post" 
-          role="form" 
+      <form action="{% url 'login' %}"
+          method="post"
+          role="form"
           class="form-horizontal">
         {% csrf_token %}
 
@@ -77,10 +77,10 @@
         </div>
         {% endbuttons %}
       </form>
-    </div> 
-    
+    </div>
+
     <div class="space-div"></div>
-    
+
     <div class="jumbotron splash-div" id="sign-up">
       <h1 class="display-4 text-center lobster">Join</h1>
       <p class="lead">
@@ -93,9 +93,9 @@
         </div>
       </div>
       {% endif %}
-      <form action="" 
-          method="post" 
-          role="form" 
+      <form action=""
+          method="post"
+          role="form"
           class="form-horizontal">
         {% csrf_token %}
         {% bootstrap_form contactform layout='inline'%}
@@ -107,7 +107,7 @@
         </div>
         {% endbuttons %}
       </form>
-    </div> 
+    </div>
   {% endblock %}
   </div>
 
