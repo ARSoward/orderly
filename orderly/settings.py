@@ -150,7 +150,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 LOGIN_URL = '/login/'
-MEDIA_ROOT = '/home/freya/orderly/'
-MEDIA_URL = '/'
+MEDIA_ROOT = '/home/arsoward/orderly/'
+MEDIA_URL = '/media/'
 
 
